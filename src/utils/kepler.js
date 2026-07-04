@@ -75,6 +75,22 @@ export function toScenePosition(pos, pretty) {
 }
 
 /**
+ * 궤도 실험실용: 장반경 a(AU)와 이심률 e만으로 간단한 궤도 요소를 만듭니다.
+ * 공전 속도는 케플러 제3법칙(P = a^1.5년)을 따르므로,
+ * 학생이 a를 조절하면 1년의 길이가 실제 물리 법칙대로 변합니다.
+ */
+export function makeCustomElements(aAU, e) {
+  return {
+    a: [aAU, 0],
+    e: [e, 0],
+    I: [0, 0],
+    L: [0, 36000 / Math.pow(aAU, 1.5)], // 세기당 평균 경도 변화율(도) = 360 × 100 / P(년)
+    peri: [0, 0],
+    node: [0, 0],
+  };
+}
+
+/**
  * 궤도선(타원)을 그리기 위한 점 배열을 계산합니다.
  * 현재 날짜를 기준으로 한 공전 주기 전체를 표본화합니다.
  * @returns {Array<[number,number,number]>} 씬 좌표 점 목록 (닫힌 곡선)

@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stars, Line } from '@react-three/drei';
 import Planet from './Planet.jsx';
+import CustomPlanet from './CustomPlanet.jsx';
 import { PLANETS, SUN } from '../data/planets.js';
 import { orbitPoints } from '../utils/kepler.js';
 
@@ -41,7 +42,7 @@ function Sun({ pretty }) {
 }
 
 /** 3D 태양계 씬 전체 */
-export default function SolarSystem({ dateMs, pretty, selectedId, onSelect }) {
+export default function SolarSystem({ dateMs, pretty, selectedId, onSelect, labConfig }) {
   return (
     <Canvas
       camera={{ position: [0, 30, 52], fov: 50, near: 0.1, far: 2000 }}
@@ -69,6 +70,8 @@ export default function SolarSystem({ dateMs, pretty, selectedId, onSelect }) {
           onSelect={onSelect}
         />
       ))}
+
+      {labConfig && <CustomPlanet config={labConfig} dateMs={dateMs} pretty={pretty} />}
 
       <OrbitControls
         makeDefault

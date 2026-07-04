@@ -1,0 +1,464 @@
+/* 어두운 우주 테마 — 교실 프로젝터에서도 잘 보이도록 큰 글씨·큰 버튼 */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #04060f;
+  --panel-bg: rgba(10, 16, 38, 0.88);
+  --panel-border: rgba(120, 150, 255, 0.25);
+  --text: #f0f4ff;
+  --text-dim: #9fb0d8;
+  --accent: #4f7cff;
+  --accent-soft: rgba(79, 124, 255, 0.22);
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui,
+    sans-serif;
+  font-size: 16px;
+}
+
+.app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.app > canvas,
+.app > div:first-child {
+  position: absolute !important;
+  inset: 0;
+}
+
+/* ---------- 공용 패널/버튼 ---------- */
+
+.panel {
+  position: absolute;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  backdrop-filter: blur(8px);
+  z-index: 10;
+}
+
+.btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--panel-border);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #6a90ff;
+}
+
+.btn-small {
+  padding: 7px 12px;
+  font-size: 13.5px;
+}
+
+.btn-active {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn-close {
+  padding: 4px 10px;
+  font-size: 14px;
+  background: transparent;
+  border: none;
+}
+
+/* ---------- 상단 바 ---------- */
+
+.top-bar {
+  top: 14px;
+  left: 14px;
+  max-width: 430px;
+}
+
+.top-bar h1 {
+  font-size: 21px;
+  margin-bottom: 10px;
+}
+
+.scale-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.disclaimer {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+/* ---------- 시간 컨트롤 ---------- */
+
+.time-controls {
+  left: 14px;
+  bottom: 14px;
+  width: 430px;
+  max-width: calc(100vw - 28px);
+}
+
+.time-date {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.time-slider {
+  width: 100%;
+  accent-color: var(--accent);
+  height: 26px;
+  cursor: pointer;
+}
+
+.time-range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+
+.time-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.time-buttons .btn {
+  flex: 1;
+  font-size: 16px;
+}
+
+.speed-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.speed-buttons .btn {
+  flex: 1;
+}
+
+/* ---------- 행성 정보 팝업 ---------- */
+
+.info-panel {
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  width: 360px;
+  max-width: calc(100vw - 28px);
+  max-height: 78vh;
+  overflow-y: auto;
+}
+
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.info-header h2 {
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.info-dot {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.info-en {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-dim);
+}
+
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+}
+
+.info-table th,
+.info-table td {
+  text-align: left;
+  padding: 7px 4px;
+  border-bottom: 1px solid rgba(120, 150, 255, 0.15);
+  vertical-align: top;
+}
+
+.info-table th {
+  color: var(--text-dim);
+  font-weight: 600;
+  white-space: nowrap;
+  padding-right: 14px;
+}
+
+.info-facts {
+  margin-top: 14px;
+}
+
+.info-facts h3 {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.info-facts ul {
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-facts li {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #dfe7ff;
+}
+
+/* ---------- AI 교수님 채팅 ---------- */
+
+.ai-panel {
+  right: 14px;
+  bottom: 14px;
+  width: 390px;
+  max-width: calc(100vw - 28px);
+  display: flex;
+  flex-direction: column;
+  max-height: 82vh;
+}
+
+.ai-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ai-header h2 {
+  font-size: 18px;
+}
+
+.ai-settings {
+  margin-top: 12px;
+}
+
+.ai-settings label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--text-dim);
+  font-weight: 600;
+  flex: 1;
+}
+
+.ai-settings input,
+.ai-settings select,
+.ai-input-row textarea {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--panel-border);
+  border-radius: 9px;
+  color: var(--text);
+  padding: 9px 11px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.ai-settings input:focus,
+.ai-settings select:focus,
+.ai-input-row textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.ai-key-note {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin: 6px 0 10px;
+}
+
+.ai-settings-row {
+  display: flex;
+  gap: 10px;
+}
+
+.ai-settings-row select option {
+  background: #0a1026;
+}
+
+.ai-messages {
+  flex: 1;
+  min-height: 110px;
+  max-height: 300px;
+  overflow-y: auto;
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 2px;
+}
+
+.ai-empty {
+  color: var(--text-dim);
+  font-size: 14px;
+  text-align: center;
+  margin: auto 0;
+  line-height: 1.6;
+}
+
+.ai-msg {
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.ai-msg-user {
+  background: var(--accent-soft);
+  align-self: flex-end;
+  max-width: 88%;
+}
+
+.ai-msg-assistant {
+  background: rgba(255, 255, 255, 0.07);
+  align-self: flex-start;
+  max-width: 92%;
+}
+
+.ai-msg-error {
+  background: rgba(255, 90, 90, 0.15);
+  border: 1px solid rgba(255, 90, 90, 0.35);
+}
+
+.ai-msg-loading {
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.ai-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.ai-input-row textarea {
+  flex: 1;
+  resize: none;
+}
+
+/* ---------- 3D 행성 라벨 ---------- */
+
+.planet-label {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* ---------- 반응형 ---------- */
+
+@media (max-width: 900px) {
+  .top-bar {
+    max-width: calc(100vw - 28px);
+  }
+
+  .ai-panel {
+    width: calc(100vw - 28px);
+    max-height: 55vh;
+  }
+
+  .time-controls {
+    width: calc(100vw - 28px);
+    bottom: auto;
+    top: 130px;
+  }
+
+  .info-panel {
+    top: auto;
+    bottom: 14px;
+    transform: none;
+    max-height: 46vh;
+  }
+}
+
+/* 대형 화면(교실 프로젝터): 글씨·패널을 키움 */
+@media (min-width: 1920px) {
+  html {
+    font-size: 18px;
+  }
+
+  .top-bar h1 {
+    font-size: 26px;
+  }
+
+  .time-controls {
+    width: 520px;
+  }
+
+  .time-date {
+    font-size: 27px;
+  }
+
+  .ai-panel {
+    width: 460px;
+  }
+
+  .info-panel {
+    width: 420px;
+  }
+
+  .btn {
+    font-size: 17px;
+  }
+}

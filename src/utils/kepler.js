@@ -74,6 +74,13 @@ export function toScenePosition(pos, pretty) {
   return [pos.x * s, pos.z * s, pos.y * s];
 }
 
+/** 두 천체 사이의 실제 거리(AU)를 계산합니다. (예: 지구 ↔ 화성) */
+export function distanceBetweenAU(elA, elB, date) {
+  const a = positionAtDate(elA, date);
+  const b = positionAtDate(elB, date);
+  return Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z);
+}
+
 /**
  * 궤도 실험실용: 장반경 a(AU)와 이심률 e만으로 간단한 궤도 요소를 만듭니다.
  * 공전 속도는 케플러 제3법칙(P = a^1.5년)을 따르므로,

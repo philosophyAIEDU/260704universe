@@ -260,6 +260,94 @@ body,
   color: #dfe7ff;
 }
 
+/* ---------- 실시간 거리 (행성 정보 팝업 내) ---------- */
+
+.info-live {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(79, 124, 255, 0.1);
+  border: 1px solid rgba(79, 124, 255, 0.35);
+}
+
+.info-live h3 {
+  font-size: 13.5px;
+  margin-bottom: 7px;
+  color: #b9c9f5;
+}
+
+.info-live-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 14px;
+  padding: 2px 0;
+}
+
+.info-live-row span {
+  color: var(--text-dim);
+}
+
+.info-live-row strong {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ---------- 몸무게 체험 (행성 정보 팝업 내) ---------- */
+
+.info-weight {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(120, 150, 255, 0.2);
+}
+
+.info-weight h3 {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.weight-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.weight-row input {
+  width: 84px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--panel-border);
+  border-radius: 9px;
+  color: var(--text);
+  padding: 8px 10px;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.weight-row input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.weight-unit {
+  font-size: 13.5px;
+  color: var(--text-dim);
+}
+
+.weight-result {
+  font-size: 17px;
+  color: #ffd479;
+  font-variant-numeric: tabular-nums;
+}
+
+.weight-note {
+  margin-top: 7px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #dfe7ff;
+}
+
 /* ---------- 퀴즈 (행성 정보 팝업 내) ---------- */
 
 .info-quiz {

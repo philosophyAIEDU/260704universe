@@ -6,12 +6,21 @@ import AIProfessor from './components/AIProfessor.jsx';
 import MissionPanel from './components/MissionPanel.jsx';
 import OrbitLab from './components/OrbitLab.jsx';
 import { MISSIONS } from './data/missions.js';
+import { PLANETS } from './data/planets.js';
+import { distanceBetweenAU } from './utils/kepler.js';
 
 const MIN_MS = Date.UTC(1800, 0, 1);
 const MAX_MS = Date.UTC(2050, 11, 31);
 const PAST_MS = Date.UTC(1900, 0, 1); // "과거로 시간여행" 미션 기준
 const DAY_MS = 86400000;
 const PROGRESS_KEY = 'orrery-mission-progress-v1';
+const WEIGHT_KEY = 'orrery-weight-kg';
+
+// "화성 대접근" 미션: 지구-화성 거리 7,000만 km 미만
+const AU_KM = 149597870.7;
+const MARS_CLOSE_KM = 70000000;
+const EARTH_EL = PLANETS.find((p) => p.id === 'earth').elements;
+const MARS_EL = PLANETS.find((p) => p.id === 'mars').elements;
 
 const clampDate = (ms) => Math.min(Math.max(ms, MIN_MS), MAX_MS);
 
@@ -32,6 +41,16 @@ export default function App() {
 
   // 궤도 실험실: null이면 닫힘, {a, e}면 열림 + 3D 씬에 "내 행성" 표시
   const [lab, setLab] = useState(null);
+
+  // 몸무게 체험: 입력값은 저장되어 행성을 바꿔도 유지됨
+  const [weightKg, setWeightKg] = useState(() => localStorage.getItem(WEIGHT_KEY) ?? '');
+  useEffect(() => {
+    try {
+      localStorage.setItem(WEIGHT_KEY, weightKg);
+    } catch {
+      /* 저장 실패는 무시 */
+    }
+  }, [weightKg]);
 
   // 탐구 미션 진행 상태 (localStorage에 저장되어 다음 수업에도 이어짐)
   const [progress, setProgress] = useState(loadProgress);
@@ -112,6 +131,13 @@ export default function App() {
   useEffect(() => {
     if (dateMs < PAST_MS && !progress.pastTravel) mark({ pastTravel: true });
   }, [dateMs, progress.pastTravel]);
+
+  // "화성 대접근 발견": 지구-화성 거리 7,000만 km 미만
+  useEffect(() => {
+    if (progress.marsClose) return;
+    const km = distanceBetweenAU(EARTH_EL, MARS_EL, new Date(dateMs)) * AU_KM;
+    if (km < MARS_CLOSE_KM) mark({ marsClose: true });
+  }, [dateMs, progress.marsClose]);
 
   // "행성 탐험가": 행성 클릭 기록
   const handleSelect = (planet) => {
@@ -204,6 +230,9 @@ export default function App() {
         planet={selected}
         onClose={() => setSelected(null)}
         onQuizCorrect={handleQuizCorrect}
+        weightKg={weightKg}
+        setWeightKg={setWeightKg}
+        dateMs={dateMs}
       />
 
       <AIProfessor selectedPlanet={selected} dateMs={dateMs} />

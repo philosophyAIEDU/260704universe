@@ -1,8 +1,8 @@
 // 탐구 미션 정의 — 학생이 앱을 직접 조작해야만 달성되며,
 // 달성하는 순간 "배움 포인트"로 관련 천문학 개념을 설명합니다.
 //
-// progress 필드: visited{행성id}, playedSec, fastPlayed, realScale,
-//               pastTravel, quizCorrect{행성id}, labTouched
+// progress 필드: visited{행성id}, played, fastPlayed, realScale,
+//               pastTravel, marsClose, quizCorrect{행성id}, labTouched
 
 const count = (obj) => Object.keys(obj ?? {}).length;
 
@@ -52,6 +52,15 @@ export const MISSIONS = [
     learn:
       '이 앱은 케플러의 궤도 계산으로 과거와 미래의 행성 위치를 재현해요. 천문학자들은 같은 방법으로 수백 년 전 하늘을 "다시 볼" 수 있답니다.',
     isDone: (p) => !!p.pastTravel,
+  },
+  {
+    id: 'mars-close',
+    icon: '🔴',
+    title: '화성 대접근 발견',
+    goal: '화성을 클릭한 뒤 날짜를 조절해 "지구까지" 거리를 7,000만 km 아래로 만들어보세요. (힌트: 대접근은 15~17년마다 — 2018년 여름 근처를 살펴보세요!)',
+    learn:
+      '2018년 7월 31일, 화성은 지구에서 약 5,760만 km까지 다가왔어요(대접근). 화성 탐사선도 이렇게 가까워지는 시기(약 26개월마다)에 맞춰 발사한답니다.',
+    isDone: (p) => !!p.marsClose,
   },
   {
     id: 'quiz',

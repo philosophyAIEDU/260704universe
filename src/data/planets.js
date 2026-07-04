@@ -11,6 +11,7 @@ export const PLANETS = [
     diameterKm: 4879,
     tiltDeg: 0.03,
     rotationHours: 58.6 * 24,
+    gravity: 0.38, // 표면 중력 (지구 = 1)
     physical: {
       diameter: '4,879 km',
       mass: '지구의 0.055배',
@@ -50,6 +51,7 @@ export const PLANETS = [
     diameterKm: 12104,
     tiltDeg: 177.4,
     rotationHours: -243 * 24,
+    gravity: 0.91,
     physical: {
       diameter: '12,104 km',
       mass: '지구의 0.815배',
@@ -94,6 +96,7 @@ export const PLANETS = [
     diameterKm: 12756,
     tiltDeg: 23.44,
     rotationHours: 23.9,
+    gravity: 1,
     physical: {
       diameter: '12,756 km',
       mass: '지구의 1배 (기준)',
@@ -140,6 +143,7 @@ export const PLANETS = [
     diameterKm: 6792,
     tiltDeg: 25.19,
     rotationHours: 24.6,
+    gravity: 0.38,
     physical: {
       diameter: '6,792 km',
       mass: '지구의 0.107배',
@@ -187,6 +191,7 @@ export const PLANETS = [
     diameterKm: 142984,
     tiltDeg: 3.13,
     rotationHours: 9.9,
+    gravity: 2.53,
     physical: {
       diameter: '142,984 km',
       mass: '지구의 317.8배',
@@ -231,6 +236,7 @@ export const PLANETS = [
     diameterKm: 120536,
     tiltDeg: 26.73,
     rotationHours: 10.7,
+    gravity: 1.07,
     hasRings: true,
     physical: {
       diameter: '120,536 km',
@@ -273,6 +279,7 @@ export const PLANETS = [
     diameterKm: 51118,
     tiltDeg: 97.77,
     rotationHours: -17.2,
+    gravity: 0.89,
     physical: {
       diameter: '51,118 km',
       mass: '지구의 14.5배',
@@ -317,6 +324,7 @@ export const PLANETS = [
     diameterKm: 49528,
     tiltDeg: 28.32,
     rotationHours: 16.1,
+    gravity: 1.14,
     physical: {
       diameter: '49,528 km',
       mass: '지구의 17.1배',

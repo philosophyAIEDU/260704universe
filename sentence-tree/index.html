@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>문장나무 · SentenceTree</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🌳</text></svg>">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+
+  <header id="topbar">
+    <div class="brand">🌳 <span data-i18n="appTitle">문장나무</span></div>
+
+    <div class="topbar-controls">
+      <button id="uiLangBtn" class="chip-btn" title="Interface language / 인터페이스 언어">
+        🌐 <span id="uiLangText">한국어</span>
+      </button>
+
+      <div class="seg" id="targetLangSeg" title="분석 대상 언어">
+        <span class="seg-label" data-i18n="analyzeLangLabel">분석</span>
+        <button type="button" data-lang="ko" class="seg-btn active" data-i18n="langKo">국어</button>
+        <button type="button" data-lang="en" class="seg-btn" data-i18n="langEn">영어</button>
+      </div>
+
+      <div class="seg" id="levelSeg" title="레벨">
+        <button type="button" data-level="beginner" class="seg-btn active" data-i18n="levelBeginner">초급</button>
+        <button type="button" data-level="intermediate" class="seg-btn" data-i18n="levelIntermediate">중급</button>
+        <button type="button" data-level="advanced" class="seg-btn" data-i18n="levelAdvanced">고급</button>
+      </div>
+
+      <button id="libraryBtn" class="icon-btn">📚 <span data-i18n="library">문장 라이브러리</span></button>
+      <button id="presentBtn" class="icon-btn">🖥️ <span data-i18n="presentMode">수업 모드</span></button>
+      <button id="settingsBtn" class="icon-btn">⚙️ <span data-i18n="settings">설정</span></button>
+    </div>
+  </header>
+
+  <main id="mainArea">
+
+    <!-- 입력 영역 -->
+    <section id="inputArea">
+      <div class="input-row">
+        <input id="sentenceInput" type="text" autocomplete="off"
+               data-i18n-placeholder="inputPlaceholder" placeholder="문장을 입력하세요">
+        <button id="analyzeBtn" class="primary-btn" data-i18n="analyzeBtn">분석하기</button>
+      </div>
+      <div id="exampleChips" class="chips" aria-label="example sentences"></div>
+      <div class="mode-row">
+        <button id="stepBtn" class="tool-btn" data-i18n="stepReveal">단계별 펼치기</button>
+        <button id="showAllBtn" class="tool-btn" data-i18n="showAll">전체 보기</button>
+        <button id="quizBtn" class="tool-btn" data-i18n="quizModeBtn">퀴즈 모드</button>
+        <button id="orderBtn" class="tool-btn" data-i18n="orderModeBtn">어순 연습</button>
+        <button id="exportBtn" class="tool-btn" data-i18n="exportPng">PNG 저장</button>
+        <button id="legendBtn" class="tool-btn" data-i18n="legendToggle">범례 켜기/끄기</button>
+        <button id="aiParseBtn" class="tool-btn ai-btn" data-i18n="aiPrecise">✨ AI 정밀 분석</button>
+        <label id="compareWrap" class="compare hidden">
+          <input type="checkbox" id="compareToggle">
+          <span data-i18n="compareToggle">로컬 분석 결과 보기</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- 학습 도우미 바 -->
+    <section id="helperBar">
+      <div class="helper-item">
+        <button id="translationBtn" class="helper-btn" data-i18n="translationBtn">🌍 문장 전체 번역 보기</button>
+        <div id="translationBox" class="helper-box hidden"></div>
+      </div>
+      <div class="helper-item">
+        <button id="grammarBtn" class="helper-btn" data-i18n="grammarBtn">💡 핵심 문법 포인트</button>
+        <div id="grammarBox" class="helper-box hidden"></div>
+      </div>
+    </section>
+
+    <!-- 트리 영역 -->
+    <section id="treeArea">
+      <svg id="treeSvg" role="img" aria-label="sentence tree"></svg>
+      <div id="legend" class="legend"></div>
+      <div id="stepControls" class="step-controls hidden">
+        <span id="stepHint" data-i18n="stepHint">‘다음’을 누르면 성분이 하나씩 나타나요</span>
+        <button id="stepNextBtn" class="primary-btn small" data-i18n="stepNext">다음 ▶</button>
+      </div>
+      <div id="treeEmptyMsg" class="tree-empty" data-i18n="treeEmpty">문장을 입력하고 ‘분석하기’를 눌러 보세요 🌱</div>
+      <div id="wordPopover" class="popover hidden"></div>
+    </section>
+
+    <!-- 퀴즈 / 어순 연습 패널 -->
+    <section id="practiceArea" class="hidden">
+      <div id="quizPanel" class="practice-panel hidden">
+        <div class="practice-head">
+          <strong data-i18n="quizModeBtn">퀴즈 모드</strong>
+          <button id="quizExitBtn" class="tool-btn" data-i18n="exitPractice">돌아가기</button>
+        </div>
+        <p id="quizMsg" data-i18n="quizIntro">트리에서 ‘?’ 노드를 누르고, 어떤 성분인지 골라 보세요!</p>
+        <div id="quizChoices" class="chips"></div>
+      </div>
+
+      <div id="orderPanel" class="practice-panel hidden">
+        <div class="practice-head">
+          <strong data-i18n="orderModeBtn">어순 연습</strong>
+          <button id="orderExitBtn" class="tool-btn" data-i18n="exitPractice">돌아가기</button>
+        </div>
+        <p id="orderMsg" data-i18n="orderIntro">카드를 끌어서(또는 두 카드를 차례로 눌러서) 바른 어순으로 만들어 보세요.</p>
+        <div id="orderCards" class="order-cards"></div>
+        <div class="practice-actions">
+          <button id="orderCheckBtn" class="primary-btn small" data-i18n="orderCheck">확인</button>
+          <button id="orderShuffleBtn" class="tool-btn" data-i18n="orderShuffle">다시 섞기</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI 교수님 패널 -->
+    <section id="aiPanel">
+      <button id="aiPanelToggle" class="ai-panel-toggle">
+        🧑‍🏫 <span data-i18n="aiPanelTitle">AI 교수님</span> <span id="aiPanelArrow">▾</span>
+      </button>
+      <div id="aiPanelBody" class="ai-panel-body hidden">
+        <div class="ai-quick-btns">
+          <button id="aiExplainBtn" class="tool-btn" data-i18n="explainBtn">이 문장 설명해줘</button>
+          <button id="aiSimilarBtn" class="tool-btn" data-i18n="similarBtn">비슷한 예문 3개</button>
+          <button id="aiQuizBtn" class="tool-btn" data-i18n="quizAiBtn">이 문장으로 퀴즈 내줘</button>
+        </div>
+        <div id="aiOutput" class="ai-output"></div>
+        <div class="ai-ask-row">
+          <input id="aiAskInput" type="text" data-i18n-placeholder="askPlaceholder" placeholder="자유롭게 질문해 보세요">
+          <button id="aiAskBtn" class="primary-btn small" data-i18n="askBtn">질문</button>
+        </div>
+        <p class="fine-print" data-i18n="aiDisclaimer">AI 번역·뜻풀이는 참고용이며 가끔 부정확할 수 있어요.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- 설정 모달 -->
+  <div id="settingsModal" class="modal hidden">
+    <div class="modal-card">
+      <h2 data-i18n="settingsTitle">⚙️ 설정</h2>
+      <label class="field">
+        <span data-i18n="apiKeyLabel">Gemini API 키</span>
+        <input id="apiKeyInput" type="password" data-i18n-placeholder="apiKeyPlaceholder" placeholder="AIza...">
+      </label>
+      <p class="fine-print" data-i18n="apiKeyPrivacy">키는 이 브라우저에만 저장되며 구글 외 어디에도 전송되지 않습니다.</p>
+      <label class="field">
+        <span data-i18n="aiLevelLabel">AI 설명 수준</span>
+        <select id="aiLevelSelect">
+          <option value="beginner" data-i18n="levelBeginner">초급</option>
+          <option value="intermediate" data-i18n="levelIntermediate">중급</option>
+          <option value="advanced" data-i18n="levelAdvanced">고급</option>
+        </select>
+      </label>
+      <p class="warn-note" data-i18n="privacyWarn">⚠️ AI 기능을 쓰면 입력한 문장이 구글 서버로 전송됩니다. 학생 이름 등 개인정보는 예문에 넣지 마세요.</p>
+      <div class="modal-actions">
+        <button id="settingsSaveBtn" class="primary-btn" data-i18n="saveBtn">저장</button>
+        <button id="settingsCloseBtn" class="tool-btn" data-i18n="closeBtn">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 문장 라이브러리 모달 -->
+  <div id="libraryModal" class="modal hidden">
+    <div class="modal-card">
+      <h2 data-i18n="libraryTitle">📚 문장 라이브러리</h2>
+      <div class="lib-save-row">
+        <input id="libNameInput" type="text" data-i18n-placeholder="namePrompt" placeholder="이름표 (예: 3반 수업)">
+        <button id="libSaveBtn" class="primary-btn small" data-i18n="saveCurrentBtn">현재 문장 저장</button>
+      </div>
+      <ul id="libList" class="lib-list"></ul>
+      <div class="modal-actions">
+        <button id="libraryCloseBtn" class="tool-btn" data-i18n="closeBtn">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

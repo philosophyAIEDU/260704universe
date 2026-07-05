@@ -12,7 +12,7 @@ const PRONOUNS = new Set(['i', 'you', 'he', 'she', 'it', 'we', 'they', 'me', 'hi
 const PREPOSITIONS = new Set([
   'in', 'on', 'at', 'to', 'with', 'from', 'for', 'of', 'by', 'about',
   'under', 'over', 'near', 'into', 'after', 'before', 'around', 'behind',
-  'between', 'during', 'through', 'without',
+  'between', 'during', 'through', 'without', 'across', 'up', 'down',
 ]);
 const BE_VERBS = new Set(['am', 'is', 'are', 'was', 'were', 'be', 'been', 'being']);
 const LINKING = new Set(['become', 'became', 'becomes', 'becoming', 'seem', 'seems', 'seemed', 'look', 'looks', 'looked', 'feel', 'feels', 'felt']);
@@ -23,9 +23,13 @@ const AUXILIARIES = new Set([
 const ADVERBS = new Set([
   'very', 'always', 'often', 'never', 'sometimes', 'usually', 'now', 'today',
   'yesterday', 'tomorrow', 'here', 'there', 'well', 'fast', 'hard', 'together',
-  'again', 'soon', 'early', 'late', 'too', 'also',
+  'again', 'soon', 'early', 'late', 'too', 'also', 'high', 'outside', 'everywhere',
 ]);
-const TIME_NOUNS = new Set(['day', 'days', 'week', 'weeks', 'weekend', 'morning', 'afternoon', 'evening', 'night', 'year', 'years', 'month', 'months', 'time']);
+const TIME_NOUNS = new Set([
+  'day', 'days', 'week', 'weeks', 'weekend', 'morning', 'afternoon', 'evening',
+  'night', 'year', 'years', 'month', 'months', 'time', 'hour', 'hours',
+  'summer', 'winter', 'spring',
+]);
 
 // -ly로 끝나지만 부사가 아닌 단어들
 const NOT_ADVERBS = new Set([
@@ -44,7 +48,11 @@ const VERB_BASES = new Set([
   'help', 'open', 'close', 'clean', 'cook', 'meet', 'call', 'live', 'work',
   'know', 'think', 'say', 'tell', 'want', 'need', 'find', 'sit', 'stand',
   'swim', 'dance', 'laugh', 'cry', 'listen', 'speak', 'wash', 'draw', 'build',
-  'kick', 'shine', 'smile',
+  'kick', 'shine', 'smile', 'ring', 'blow', 'bark', 'stop', 'move', 'plant',
+  'paint', 'carry', 'wear', 'throw', 'catch', 'ride', 'sell', 'bring', 'win',
+  'grow', 'put', 'hide', 'hang', 'wait', 'travel', 'keep', 'send', 'show',
+  'ask', 'brush', 'feed', 'finish', 'follow', 'pull', 'climb', 'dig', 'hold',
+  'chase', 'solve', 'share', 'practice', 'fall',
 ]);
 
 const IRREGULAR_PAST = {
@@ -53,6 +61,10 @@ const IRREGULAR_PAST = {
   wrote: 'write', slept: 'sleep', drank: 'drink', bought: 'buy', met: 'meet',
   knew: 'know', thought: 'think', said: 'say', told: 'tell', found: 'find',
   sat: 'sit', stood: 'stand', swam: 'swim', rose: 'rise', spoke: 'speak',
+  threw: 'throw', caught: 'catch', rode: 'ride', sold: 'sell', brought: 'bring',
+  won: 'win', grew: 'grow', wore: 'wear', hid: 'hide', kept: 'keep',
+  sent: 'send', fed: 'feed', held: 'hold', dug: 'dig', fell: 'fall',
+  blew: 'blow', drew: 'draw', rang: 'ring', hung: 'hang',
 };
 
 function verbBase(wordLower) {

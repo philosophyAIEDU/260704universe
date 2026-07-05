@@ -1,0 +1,5 @@
+# 저장소를 통째로 Netlify에 연결/업로드해도
+# sentence-tree 폴더가 사이트로 공개되도록 하는 설정
+[build]
+  publish = "sentence-tree"
+  command = ""

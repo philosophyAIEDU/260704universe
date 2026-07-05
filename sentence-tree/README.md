@@ -39,6 +39,23 @@ python3 -m http.server 8000
 > 폴더 안에 `index.html` 이 바로 들어 있어야 합니다. (이 폴더는 이미 그렇게 되어 있어요.)
 > 압축(zip)해서 올려도 되고, 폴더째 끌어다 놓아도 됩니다.
 
+### ⚠️ "Page not found" 가 나올 때
+
+접속했는데 **Page not found(404)** 가 보인다면, `index.html` 이 들어 있는
+`sentence-tree` **폴더가 아니라 그 바깥(저장소 전체)** 이 올라간 경우예요. 해결법:
+
+- **드래그 앤 드롭으로 올린 경우**: 다운받은 압축을 풀고, 그 안의
+  **`sentence-tree` 폴더만** 골라서 다시 드롭존에 끌어다 놓으세요.
+  (폴더를 열었을 때 `index.html` 이 바로 보여야 합니다.)
+- **GitHub 저장소를 연결해서 올린 경우**: 이 저장소 최상단에 있는
+  `netlify.toml` 이 `publish = "sentence-tree"` 로 알아서 잡아줍니다.
+  Netlify 화면에서 **Deploys → Trigger deploy → Deploy site** 를 눌러
+  새로 배포하면 됩니다. 그래도 안 되면
+  **Site configuration → Build & deploy → Publish directory** 를
+  `sentence-tree` 로 직접 입력하고 다시 배포하세요.
+  또한 **Branch to deploy** 가 코드가 들어 있는 브랜치
+  (`claude/sentence-tree-webapp-5klyf0`)로 되어 있는지 확인하세요.
+
 ### 수정한 뒤 다시 올리는 법
 
 1. Netlify에 로그인 → 내 사이트(Site)를 클릭합니다.

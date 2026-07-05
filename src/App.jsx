@@ -42,6 +42,9 @@ export default function App() {
   // 궤도 실험실: null이면 닫힘, {a, e}면 열림 + 3D 씬에 "내 행성" 표시
   const [lab, setLab] = useState(null);
 
+  // "오러리가 뭐예요?" 설명 펼침 여부
+  const [showOrrery, setShowOrrery] = useState(false);
+
   // 몸무게 체험: 입력값은 저장되어 행성을 바꿔도 유지됨
   const [weightKg, setWeightKg] = useState(() => localStorage.getItem(WEIGHT_KEY) ?? '');
   useEffect(() => {
@@ -173,7 +176,36 @@ export default function App() {
       />
 
       <header className="panel top-bar">
-        <h1>🌌 실시간 3D 태양계 오러리</h1>
+        <div className="top-title">
+          <h1>🌌 실시간 3D 태양계 오러리</h1>
+          <button
+            className={`btn btn-small orrery-help-btn ${showOrrery ? 'btn-active' : ''}`}
+            onClick={() => setShowOrrery(!showOrrery)}
+            aria-expanded={showOrrery}
+          >
+            ❓ 오러리가 뭐예요?
+          </button>
+        </div>
+
+        {showOrrery && (
+          <div className="orrery-info">
+            <p>
+              <strong>오러리(Orrery)</strong>는 태양 둘레를 도는 행성들의 움직임을
+              한눈에 보여주는 <strong>태양계 모형</strong>이에요.
+            </p>
+            <p>
+              약 300년 전 영국에서 시계 기술자들이 톱니바퀴로 행성이 빙글빙글 돌아가는
+              기계를 처음 만들었는데, 이 멋진 모형을 선물받은{' '}
+              <strong>오러리 백작(Earl of Orrery)</strong>의 이름을 따서
+              &lsquo;오러리&rsquo;라고 부르게 되었답니다.
+            </p>
+            <p>
+              옛날 오러리는 톱니바퀴 ⚙️로 돌았지만, 이 앱은 케플러의 궤도 계산으로
+              행성들의 <strong>진짜 위치</strong>를 보여주는 디지털 오러리예요!
+            </p>
+          </div>
+        )}
+
         <div className="scale-toggle" role="group" aria-label="크기·거리 표시 모드">
           <button
             className={`btn btn-small ${!pretty ? 'btn-active' : ''}`}

@@ -127,6 +127,13 @@ input, select { font: inherit; }
   color: var(--ink);
 }
 .chips .chip:hover { background: var(--accent-soft); border-style: solid; }
+.chips .more-chip {
+  border-style: solid;
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+  background: var(--accent-soft);
+}
 
 .mode-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .tool-btn {

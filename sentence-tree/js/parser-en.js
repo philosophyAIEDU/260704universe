@@ -44,6 +44,7 @@ const VERB_BASES = new Set([
   'help', 'open', 'close', 'clean', 'cook', 'meet', 'call', 'live', 'work',
   'know', 'think', 'say', 'tell', 'want', 'need', 'find', 'sit', 'stand',
   'swim', 'dance', 'laugh', 'cry', 'listen', 'speak', 'wash', 'draw', 'build',
+  'kick', 'shine', 'smile',
 ]);
 
 const IRREGULAR_PAST = {
@@ -206,15 +207,26 @@ export function parseEn(sentence) {
     }
 
     if (isAdverbToken(w)) {
-      components.push({ role: 'adverbial', text: tokens[i], words: [{ word: tokens[i], josa: '', pos: 'pos_adv' }] });
+      // 연속된 부사("very hard")는 하나의 부사어로 묶는다
+      const advGroup = [tokens[i]];
       i += 1;
+      while (i < tokens.length && isAdverbToken(lower[i])) {
+        advGroup.push(tokens[i]);
+        i += 1;
+      }
+      components.push({
+        role: 'adverbial',
+        text: advGroup.join(' '),
+        words: advGroup.map((word) => ({ word, josa: '', pos: 'pos_adv' })),
+      });
       continue;
     }
 
-    // 명사구 수집
+    // 명사구 수집 (대명사는 그 자체로 완결된 명사구: "He teaches us math")
     const np = [tokens[i]];
+    const startedWithPronoun = PRONOUNS.has(lower[i]);
     i += 1;
-    while (i < tokens.length && !PREPOSITIONS.has(lower[i]) &&
+    while (!startedWithPronoun && i < tokens.length && !PREPOSITIONS.has(lower[i]) &&
            !(isAdverbToken(lower[i]))) {
       // 새 명사구의 시작(관사/지시어)이면 끊는다
       if (ARTICLES.has(lower[i]) || DETERMINERS.has(lower[i])) break;

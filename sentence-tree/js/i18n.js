@@ -31,6 +31,7 @@ const DICT = {
     compareToggle: '로컬 분석 결과 보기',
     treeEmpty: '문장을 입력하고 ‘분석하기’를 눌러 보세요 🌱',
     noSentence: '먼저 문장을 입력해 주세요!',
+    moreExamples: '🔄 다른 예문 보기',
     enParseNote: '※ 영어 자동 분석은 근사치예요. 더 정확한 분석은 ✨ AI 정밀 분석을 눌러 보세요.',
     aiParseDone: '✨ AI 정밀 분석 결과로 바꿨어요. 로컬 결과와 비교하려면 체크박스를 사용하세요.',
 
@@ -134,6 +135,7 @@ const DICT = {
     compareToggle: 'Show local parse',
     treeEmpty: 'Type a sentence and press “Analyze” 🌱',
     noSentence: 'Please type a sentence first!',
+    moreExamples: '🔄 More examples',
     enParseNote: '※ The built-in parser is approximate. Try ✨ AI Deep Parse for better accuracy.',
     aiParseDone: '✨ Switched to the AI parse. Use the checkbox to compare with the local parse.',
 

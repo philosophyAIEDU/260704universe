@@ -386,11 +386,23 @@ function renderLegend() {
 }
 
 // ---------- 예문 칩 ----------
-function renderExamples() {
+const CHIP_COUNT = 6; // 한 번에 보여줄 예문 수
+let exampleOffset = 0;
+
+function renderExamples(rotate = false) {
   const box = $('exampleChips');
   box.innerHTML = '';
   const list = (EXAMPLES[state.targetLang] || {})[state.level] || [];
-  for (const example of list) {
+  if (rotate) {
+    exampleOffset = (exampleOffset + CHIP_COUNT) % Math.max(1, list.length);
+  } else {
+    exampleOffset = 0;
+  }
+  // offset부터 CHIP_COUNT개를 순환하며 뽑는다 (예문 전체를 차례로 볼 수 있게)
+  const shown = list.length <= CHIP_COUNT
+    ? list
+    : Array.from({ length: CHIP_COUNT }, (_, k) => list[(exampleOffset + k) % list.length]);
+  for (const example of shown) {
     const chip = document.createElement('button');
     chip.type = 'button';
     chip.className = 'chip';
@@ -400,6 +412,14 @@ function renderExamples() {
       analyze();
     });
     box.appendChild(chip);
+  }
+  if (list.length > CHIP_COUNT) {
+    const moreBtn = document.createElement('button');
+    moreBtn.type = 'button';
+    moreBtn.className = 'chip more-chip';
+    moreBtn.textContent = t('moreExamples');
+    moreBtn.addEventListener('click', () => renderExamples(true));
+    box.appendChild(moreBtn);
   }
 }
 
@@ -418,6 +438,7 @@ function refreshTexts() {
   applyI18n();
   renderLegend();
   updateSegButtons();
+  renderExamples();
   // 트리가 있으면 새 언어 라벨로 다시 그린다
   if (state.localTree && state.mode !== 'quiz' && state.mode !== 'order') {
     renderTree();

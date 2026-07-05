@@ -108,9 +108,38 @@ body,
   max-width: 430px;
 }
 
+.top-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
 .top-bar h1 {
   font-size: 21px;
+}
+
+.orrery-help-btn {
+  font-size: 12.5px;
+  padding: 5px 10px;
+}
+
+.orrery-info {
+  background: rgba(255, 200, 60, 0.1);
+  border: 1px solid rgba(255, 200, 60, 0.35);
+  border-radius: 10px;
+  padding: 10px 12px;
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.orrery-info p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #f2e8cf;
 }
 
 .scale-toggle {
